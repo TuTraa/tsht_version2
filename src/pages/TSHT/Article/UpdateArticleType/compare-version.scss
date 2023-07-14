@@ -1,0 +1,18 @@
+del {
+  text-decoration: line-through;
+  background-color: #fbb6c2;
+  color: #555;
+}
+ins {
+  text-decoration: none;
+  background-color: #d4fcbc;
+}
+ins img {
+  padding: 10px;
+  background-color: #d4fcbc;
+}
+
+del img {
+  padding: 10px;
+  background-color: #fbb6c2;
+}

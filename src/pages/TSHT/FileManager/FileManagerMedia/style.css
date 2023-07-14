@@ -1,0 +1,24 @@
+.ant-table-row-custom {
+  background-color: #EBEDEE;
+  cursor: pointer;
+}
+
+.ant-table-row {
+  cursor: pointer;
+}
+
+.preview-image {
+  z-index: 2500;
+}
+
+.btn-transcode{
+  border: 1px solid #ffffff;
+  border-radius: 20px;
+  width: 83px;
+  height: 33px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
