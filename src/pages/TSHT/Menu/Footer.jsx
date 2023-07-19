@@ -26,7 +26,7 @@ const Footer = () => {
   document.title = "Quản lý giao diện | Toà Soạn Hội Tụ";
 
   const [header, setHeader] = useState({});
-  const [avatar, setAvatar] = useState([]);
+  const [avatar, setAvatar] = useState();
   // const initContent = `<p>Toà Soạn Hội Tụ.</p>`;
   const editorRef = useRef(null);
   const [initContent, setInitContent] = useState();
@@ -39,7 +39,7 @@ const Footer = () => {
     });
   };
   useEffect(() => {
-    getFooter().then((r) => {});
+    getFooter().then((r) => { });
   }, []);
 
   const validation = useFormik({
@@ -76,15 +76,24 @@ const Footer = () => {
         youtube_link: values.youtube_link,
       };
       // save new Header
-      getAPIPostFooter(newFooter).then((r) => {
-        if (r.status >= 0) {
-          ToastCustom("Thêm Footer thành công", "success");
-          validation.resetForm();
-          // navigate("/footer");
-        } else if (r.status < 0) {
-          ToastCustom(r.message ? r.message : "Thêm Footer thất bại", "fail");
-        }
-      });
+      if (!avatar) {
+        ToastCustom("Không được bỏ trống ảnh Footer", "fail");
+      }
+      if (!newFooter.contact_info) {
+        ToastCustom("Thông tin liên hệ không được bỏ trống", "fail")
+      }
+      else {
+        getAPIPostFooter(newFooter).then((r) => {
+          if (r.status >= 0) {
+            ToastCustom("Thêm Footer thành công", "success");
+            // validation.resetForm();
+            // navigate("/footer");
+          } else if (r.status < 0) {
+            ToastCustom(r.message ? r.message : "Thêm Footer thất bại", "fail");
+          }
+        });
+      }
+
     },
   });
   return (
@@ -113,6 +122,7 @@ const Footer = () => {
                           type={"dropzone"}
                           showImage={true}
                           defaultImgSrc={avatar}
+                          setAvatar={setAvatar}
                           onUploadMedia={(e) => setAvatar(e)}
                         ></SelectMedia>
                       </Col>
@@ -158,21 +168,22 @@ const Footer = () => {
                         onBlur={validation.handleBlur}
                         invalid={
                           validation.touched.copyright_info &&
-                          validation.errors.copyright_info
+                            validation.errors.copyright_info
                             ? true
                             : false
                         }
                         value={validation.values.copyright_info || ""}
                       />
                       {validation.touched.copyright_info &&
-                      validation.errors.copyright_info ? (
+                        validation.errors.copyright_info ? (
                         <FormFeedback type="invalid">
                           {validation.errors.copyright_info}
                         </FormFeedback>
                       ) : null}
                     </div>
                     <div className="mb-3">
-                      <Label className="form-label">Link tải ứng dụng</Label>
+                      <Label className="form-label">Link tải ứng dụng</Label><br />
+                      <Label className="form-label" style={{ fontSize: '11px' }}>Android</Label>
                       <Input
                         name="android_link"
                         type="link"
@@ -188,16 +199,17 @@ const Footer = () => {
                         onBlur={validation.handleBlur}
                         invalid={
                           validation.touched.android_link &&
-                          validation.errors.android_link
+                            validation.errors.android_link
                             ? true
                             : false
                         }
                         value={validation.values.android_link || ""}
                       />
+                      <Label className="form-label" style={{ marginTop: '15px', fontSize: '11px' }}>IOS</Label>
                       <Input
                         name="ios_link"
                         type="link"
-                        className="form-control mt-3 "
+                        className="form-control  "
                         id="ios_link"
                         placeholder="Nhập đường dẫn ứng dụng trên App Store "
                         validate={{
@@ -209,17 +221,18 @@ const Footer = () => {
                         onBlur={validation.handleBlur}
                         invalid={
                           validation.touched.ios_link &&
-                          validation.errors.ios_link
+                            validation.errors.ios_link
                             ? true
                             : false
                         }
                         value={validation.values.ios_link || ""}
                       />
                     </div>
-                    <div className="mb-3">
+                    <div className="mb-3 mt-4">
                       <Label htmlFor="link" className="form-label">
                         Link nhanh
-                      </Label>
+                      </Label><br />
+                      <Label className="form-label" style={{ marginTop: '5px', fontSize: '11px' }}>Facebook</Label>
                       <Input
                         name="facebook_link"
                         type="link"
@@ -235,16 +248,17 @@ const Footer = () => {
                         onBlur={validation.handleBlur}
                         invalid={
                           validation.touched.facebook_link &&
-                          validation.errors.facebook_link
+                            validation.errors.facebook_link
                             ? true
                             : false
                         }
                         value={validation.values.facebook_link || ""}
                       />
+                      <Label className="form-label" style={{ marginTop: '15px', fontSize: '11px' }}>Zalo</Label>
                       <Input
                         name="zalo_link"
                         type="link"
-                        className="form-control mt-3 "
+                        className="form-control "
                         id="zalo_link"
                         placeholder="Link nhanh Zalo "
                         validate={{
@@ -256,16 +270,17 @@ const Footer = () => {
                         onBlur={validation.handleBlur}
                         invalid={
                           validation.touched.zalo_link &&
-                          validation.errors.zalo_link
+                            validation.errors.zalo_link
                             ? true
                             : false
                         }
                         value={validation.values.zalo_link || ""}
                       />
+                      <Label className="form-label" style={{ marginTop: '15px', fontSize: '11px' }}>Youtube</Label>
                       <Input
                         name="youtube_link"
                         type="link"
-                        className="form-control mt-3 "
+                        className="form-control "
                         id="youtube_link"
                         placeholder="Link nhanh Youtube "
                         validate={{
@@ -277,7 +292,7 @@ const Footer = () => {
                         onBlur={validation.handleBlur}
                         invalid={
                           validation.touched.youtube_link &&
-                          validation.errors.youtube_link
+                            validation.errors.youtube_link
                             ? true
                             : false
                         }
@@ -285,7 +300,7 @@ const Footer = () => {
                       />
                     </div>
 
-                    <div className="hstack gap-2 justify-content-end">
+                    <div className="hstack gap-2 justify-content-start">
                       <button type="submit" className="btn btn-success">
                         Lưu
                       </button>

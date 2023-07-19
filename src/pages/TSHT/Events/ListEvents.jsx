@@ -140,6 +140,7 @@ const ListEvents = () => {
         setEventList(res.data.list);
         setPagination({ ...pagination, total: res.data.total });
       } else {
+        setEventList([]);
         toast.error("Không tìm thấy dữ liệu!", {
           position: "top-right",
           autoClose: 5000,
@@ -374,8 +375,29 @@ const ListEvents = () => {
                         rowKey={"event_id"}
                       />
                     ) : (
-                      <Loading />
-                    )}
+                      // <Table dataSource={articlePriceList} columns={columns} />
+                      eventList && eventList.length > 0 ? (
+                        <Table
+                          className="overflow-auto"
+                          columns={columns}
+                          dataSource={eventList}
+                          rowKey={"article_id"}
+                        />
+                      ) : (
+                        <div
+                          style={{
+                            height: 500,
+                            display: "flex",
+                            textAlign: "center",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <h2>Không có dữ liệu</h2>
+                        </div>
+                      )
+                    )
+                    }
                   </div>
                 </CardBody>
               </Card>

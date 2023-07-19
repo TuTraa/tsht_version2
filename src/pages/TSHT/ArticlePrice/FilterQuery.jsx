@@ -1,10 +1,11 @@
+/* eslint-disable default-case */
 import { useEffect, useState } from "react";
 import { DatePicker, Select } from "antd";
 import moment from "moment";
 
 const FilterQuery = (props) => {
   const Option = Select.Option;
-  const { type, apiFunction, value, setQuery } = props;
+  const { type, apiFunction, value, setQuery, textTypingSearch = 'false' } = props;
   const [placeholder, setPlaceholder] = useState("");
   const [list, setList] = useState([]);
   useEffect(() => {
@@ -81,20 +82,33 @@ const FilterQuery = (props) => {
             allowClear
             placeholder={placeholder}
             onChange={handleChange}
+            optionFilterProp="children"
+            showSearch={textTypingSearch}
+            filterOption={(input, option) => (option?.label ?? '').includes(input)}
+            filterSort={(optionA, optionB) => {
+              (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+            }}
+            options={list ? list.map((e, i) => {
+              return {
+                label: e.value,
+                value: e.id
+              }
+            }) : []}
           >
-            {list.map((e, i) => {
+            {/* {list && list.map((e, i) => {
               return (
                 <Option key={i} value={e.id}>
                   {e.value}
                 </Option>
               );
-            })}
+            })} */}
           </Select>
         </>
       )}
       {type === "date" && (
         <>
           <DatePicker
+            style={{ width: 200, height: 31 }}
             onChange={onPickDate}
             placeholder={placeholder}
           ></DatePicker>

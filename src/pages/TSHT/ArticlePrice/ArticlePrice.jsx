@@ -35,6 +35,8 @@ const ArticlePrice = () => {
       setLoading(false);
     });
   };
+  const [searchValue, setSearchValue] = useState('');
+  const [expandedKeys, setExpandedKeys] = useState([]);
   useEffect(() => {
     getArticlePriceList({
       offset: 0,
@@ -56,6 +58,21 @@ const ArticlePrice = () => {
       category_id: newValue === null ? "" : newValue,
     });
     setValueCategory(newValue);
+    setSearchValue(newValue);
+
+    // Tìm kiếm và mở rộng các nút cây liên quan
+    const expandedKeys = optionsCategory
+
+      .map((node) => {
+        if (node.title.toLowerCase().includes(newValue.toLowerCase())) {
+          return getParentKeys(node);
+        }
+        return null;
+      })
+      .flat()
+      .filter((key) => key !== null);
+
+    setExpandedKeys([...new Set(expandedKeys)]);
   };
   useEffect(() => {
     getData();
@@ -147,6 +164,22 @@ const ArticlePrice = () => {
       document.body.removeChild(link);
     });
   };
+  // console.log("optionsCategory", optionsCategory);
+  const getParentKeys = (node) => {
+    const keys = [];
+    if (node.children) {
+      keys.push(node.value);
+      node.children.forEach((child) => {
+        keys.push(...getParentKeys(child));
+      });
+    } else {
+      keys.push(node.value);
+    }
+    return keys;
+  };
+
+
+
   return (
     <div className="page-content">
       <Container fluid>
@@ -165,6 +198,7 @@ const ArticlePrice = () => {
               apiFunction={getArticleAuthorList}
               value={"author"}
               setQuery={setQueryAuthor}
+              textTypingSearch
             />
             <TreeSelect
               style={{ width: 200, height: 38 }}
@@ -174,10 +208,14 @@ const ArticlePrice = () => {
                 overflow: "auto",
               }}
               allowClear
+              showSearch
               treeData={optionsCategory}
               treeDefaultExpandAll
               placeholder="Chuyên mục"
               onChange={onChangeCategory}
+              filterTreeNode={(input, treeNode) =>
+                treeNode.title.toLowerCase().includes(input.toLowerCase())
+              }
             />
             <FilterQuery
               type="text"
@@ -187,13 +225,13 @@ const ArticlePrice = () => {
             />
             <FilterQuery
               type="date"
-              apiFunction={() => {}}
+              apiFunction={() => { }}
               value={"fromDate"}
               setQuery={setQueryFromDate}
             />
             <FilterQuery
               type="date"
-              apiFunction={() => {}}
+              apiFunction={() => { }}
               value={"toDate"}
               setQuery={setQueryToDate}
             />
@@ -210,28 +248,29 @@ const ArticlePrice = () => {
             {loading ? (
               <Loading />
             ) : (
-                // <Table dataSource={articlePriceList} columns={columns} />
-                articlePriceList && articlePriceList.length > 0 ? (
-                    <Table
-                        className="overflow-auto"
-                        columns={columns}
-                        dataSource={articlePriceList}
-                        rowKey={"article_id"}
-                    />
-                ) : (
-                    <div
-                        style={{
-                          height: 500,
-                          display: "flex",
-                          textAlign: "center",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                    >
-                      <h2>Không có dữ liệu</h2>
-                    </div>
-                )
-            )}
+              // <Table dataSource={articlePriceList} columns={columns} />
+              articlePriceList && articlePriceList.length > 0 ? (
+                <Table
+                  className="overflow-auto"
+                  columns={columns}
+                  dataSource={articlePriceList}
+                  rowKey={"article_id"}
+                />
+              ) : (
+                <div
+                  style={{
+                    height: 500,
+                    display: "flex",
+                    textAlign: "center",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <h2>Không có dữ liệu</h2>
+                </div>
+              )
+            )
+            }
           </CardBody>
         </Card>
       </Container>

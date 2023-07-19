@@ -16,6 +16,7 @@ const SelectMedia = ({
   defaultImgSrc,
   setDefaultImgSrc,
   defaultType = "image",
+  setAvatar,
   close,
 }) => {
   const [open, setOpen] = useState(false);
@@ -97,6 +98,8 @@ const SelectMedia = ({
                 onClick={() => {
                   setMediaSrc(null);
                   setDefaultImgSrc && setDefaultImgSrc(null);
+                  // setAvatar('')
+                  setAvatar && setAvatar('')
                 }}
                 style={{
                   marginLeft: 307,

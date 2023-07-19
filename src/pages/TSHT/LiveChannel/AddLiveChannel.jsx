@@ -169,13 +169,13 @@ const AddLiveChannel = () => {
                             value={validation.values.channel_title || ""}
                             invalid={
                               validation.touched.channel_title &&
-                              validation.errors.channel_title
+                                validation.errors.channel_title
                                 ? true
                                 : false
                             }
                           />
                           {validation.touched.channel_title &&
-                          validation.errors.channel_title ? (
+                            validation.errors.channel_title ? (
                             <FormFeedback type="invalid">
                               {validation.errors.channel_title}
                             </FormFeedback>
@@ -319,14 +319,14 @@ const AddLiveChannel = () => {
                         value={validation.values.description || ""}
                       />
                       {validation.touched.description &&
-                      validation.errors.description ? (
+                        validation.errors.description ? (
                         <FormFeedback type="invalid">
                           {validation.errors.description}
                         </FormFeedback>
                       ) : null}
                     </div>
 
-                    <div className="hstack gap-2 justify-content-start">
+                    <div className="hstack gap-2 justify-content-end">
                       <button type="submit" className="btn btn-success">
                         Thêm mới
                       </button>

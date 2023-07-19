@@ -16,14 +16,14 @@ import {
   getAPIDeleteComment,
   getAPIDeleteTag,
   getAPIListComment,
+  getAPIListCategory
 } from "../../../helpers/fakebackend_helper";
 import { toast, ToastContainer } from "react-toastify";
 import { Link } from "react-router-dom";
 import DeleteModal from "../../../Components/Common/DeleteModal";
 import TableContainer from "../../../Components/Common/TableContainer";
 import DataTable from "react-data-table-component";
-import { Popconfirm, Spin, Table } from "antd";
-import Select from "react-select";
+import { Popconfirm, Spin, TreeSelect, Table, Select } from "antd";
 import moment from "moment";
 import ToastCustom from "../../../Components/Common/Toast";
 
@@ -33,10 +33,30 @@ const Comment = () => {
   const [reload, setReload] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [search, setSearch] = useState("");
+  const [valueCategory, setValueCategory] = useState();
+  const [optionsCategory, setOptionsCategory] = useState([]);
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10,
   });
+  useEffect(() => {
+    getAPIListCategory(0, -1).then((res) => {
+      var options = [];
+      if (res.data && res.data.list && res.status > 0) {
+        res.data.list.forEach((e) => {
+          options.push({
+            value: e.category_id,
+            title: e.category_name,
+            children: e.list_child_categories.map((x) => ({
+              value: x.category_id,
+              title: x.category_name,
+            })),
+          });
+        });
+        setOptionsCategory(options);
+      }
+    }, []);
+  }, []);
   const onClickDelete = (tag_id) => {
     setCommentId(tag_id);
     setDeleteModal(true);
@@ -116,6 +136,7 @@ const Comment = () => {
   }, [reload]);
 
   const statusComment = [
+
     {
       value: "Đã duyệt",
       label: "Đã duyệt",
@@ -139,7 +160,7 @@ const Comment = () => {
           <>
             <div className="mb-3">
               <Input
-                style={{fontWeight:700}}
+                style={{ fontWeight: 700 }}
                 name="tag_name"
                 id="tagname-field"
                 className="form-control"
@@ -190,11 +211,11 @@ const Comment = () => {
             <div>
               {record.comment_items.parrent_comment.status == 1
                 ? moment(
-                    record.comment_items.parrent_comment.approve_date
-                  ).format("DD/MM/YYYY HH:mm")
+                  record.comment_items.parrent_comment.approve_date
+                ).format("DD/MM/YYYY HH:mm")
                 : moment(
-                    record.comment_items.parrent_comment.created_date
-                  ).format("DD/MM/YYYY HH:mm")}
+                  record.comment_items.parrent_comment.created_date
+                ).format("DD/MM/YYYY HH:mm")}
             </div>
           </div>
         ),
@@ -225,7 +246,7 @@ const Comment = () => {
                   </button>
                 </Popconfirm>
               ) : (
-                <div style={{ display: "flex" }}>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
                   <Popconfirm
                     title={"Xác nhận duyệt"}
                     icon={<></>}
@@ -465,24 +486,44 @@ const Comment = () => {
                             // defaultValue={customerStatus[1]}
                             // onChange={(e) => {
                             //     handlecustomerStatus(e.value);
-                            // }}
+                            // }}\
+                            allowClear
+                            style={{ width: "180px" }}
                             placeholder="Trạng thái"
                             options={statusComment}
                             name="choices-single-default"
                             id="idStatus"
                           ></Select>
                         </Col>
+
                         <Col lg={2}>
-                          <Select
-                            // defaultValue={customerStatus[1]}
-                            // onChange={(e) => {
-                            //     handlecustomerStatus(e.value);
-                            // }}
+                          {/* <Select
+                            defaultValue={customerStatus[1]}
+                            onChange={(e) => {
+                                handlecustomerStatus(e.value);
+                            }}
                             placeholder="Chuyên mục"
                             options={statusComment}
                             name="choices-single-default"
                             id="idStatus"
-                          ></Select>
+                          ></Select> */}
+                          <TreeSelect
+                            style={{ width: 200, height: 38 }}
+                            value={valueCategory}
+                            dropdownStyle={{
+                              maxHeight: 400,
+                              overflow: "auto",
+                            }}
+                            allowClear
+                            showSearch
+                            treeData={optionsCategory}
+                            treeDefaultExpandAll
+                            placeholder="Chuyên mục"
+                            // onChange={onChangeCategory}
+                            filterTreeNode={(input, treeNode) =>
+                              treeNode.title.toLowerCase().includes(input.toLowerCase())
+                            }
+                          />
                         </Col>
                         {/*<Col lg={2}>*/}
                         {/*  <Select*/}

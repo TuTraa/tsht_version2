@@ -451,7 +451,6 @@ const FileMedia = (props) => {
       //   },
       // ],
       // onFilter: (value, record) => {
-      //   console.log(value);
       //   return true;
       // },
     },

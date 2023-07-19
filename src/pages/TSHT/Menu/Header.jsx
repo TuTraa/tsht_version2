@@ -38,7 +38,7 @@ const Header = () => {
     });
   };
   useEffect(() => {
-    getHeader().then((r) => {});
+    getHeader().then((r) => { });
   }, []);
 
   const validation = useFormik({
@@ -68,8 +68,9 @@ const Header = () => {
       // save new header
       getAPIPostHeader(newHeader).then((r) => {
         if (r.status >= 0) {
+          // getHeader();
           ToastCustom("Thêm header thành công", "success");
-          validation.resetForm();
+          // validation.resetForm();
           navigate("/header");
         } else if (r.status < 0) {
           ToastCustom(r.message ? r.message : "Thêm header thất bại", "fail");
@@ -99,6 +100,7 @@ const Header = () => {
                         <Label htmlFor="article_avatar" className="form-label">
                           Ảnh header
                         </Label>
+
                         <SelectMedia
                           showImage={true}
                           defaultImgSrc={avatar}
@@ -136,7 +138,7 @@ const Header = () => {
 
                     <div className="mb-3">
                       <Label htmlFor="phone_number" className="form-label">
-                        Số điện thoại
+                        Số điện thoại <RequiredIcon />
                       </Label>
                       <Input
                         name="phone_number"
@@ -152,20 +154,20 @@ const Header = () => {
                         value={validation.values.phone_number || ""}
                         invalid={
                           validation.touched.phone_number &&
-                          validation.errors.phone_number
+                            validation.errors.phone_number
                             ? true
                             : false
                         }
                       />
                       {validation.touched.phone_number &&
-                      validation.errors.phone_number ? (
+                        validation.errors.phone_number ? (
                         <FormFeedback type="invalid">
                           {validation.errors.phone_number}
                         </FormFeedback>
                       ) : null}
                     </div>
 
-                    <div className="hstack gap-2 justify-content-end">
+                    <div className="hstack gap-2 justify-content-start">
                       <button type="submit" className="btn btn-success">
                         Lưu
                       </button>

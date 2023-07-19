@@ -36,7 +36,9 @@ const AddDepartment = () => {
       description: (department && department.description) || "",
     },
     validationSchema: Yup.object({
-      department_name: Yup.string().trim().required("Mời bạn nhập tên phòng ban"),
+      department_name: Yup.string().trim().required("Mời bạn nhập tên phòng ban")
+        .min(2, 'Tên phòng ban không được nhỏ hơn 2 ký tự')
+        .max(2, 'Tên phòng ban không được lớn hơn 50 ký tự')
     }),
     onSubmit: (values) => {
       const newDepartment = {
@@ -99,7 +101,7 @@ const AddDepartment = () => {
                         }
                       />
                       {validation.touched.department_name &&
-                      validation.errors.department_name ? (
+                        validation.errors.department_name ? (
                         <FormFeedback type="invalid">
                           {validation.errors.department_name}
                         </FormFeedback>

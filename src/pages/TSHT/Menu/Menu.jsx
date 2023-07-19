@@ -48,7 +48,7 @@ const Menu = () => {
   const [record, setRecord] = useState(0);
   const [page, setPage] = useState(1);
   const [form] = useForm();
-  const addFunction = useRef(() => {});
+  const addFunction = useRef(() => { });
   const [listNumber, setListNumber] = useState([]);
 
   useEffect(() => {
@@ -133,11 +133,17 @@ const Menu = () => {
       if (
         filter &&
         filter !==
-          "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9"
+        "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9"
       ) {
-        getAPITreeListCategory(offset, limit).then((res) => {
+        getAPITreeListCategory(0, 100).then((res) => {
+          let arrFinded = '';
           if (res.data && res.status > 0) {
-            setMenuList(res.data.list);
+            arrFinded = res.data.list.filter(x => {
+              const name = x.category_name.toLowerCase();
+              return name.includes(filter.toLowerCase());
+            }
+            );
+            setMenuList(arrFinded);
           }
         });
       } else {
@@ -156,7 +162,7 @@ const Menu = () => {
     if (
       filter &&
       filter !==
-        "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9"
+      "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9"
     ) {
       getAPITreeListCategory(offset, limit).then((res) => {
         if (res.data && res.status > 0) {
@@ -301,7 +307,7 @@ const Menu = () => {
                         <List.Item key={item.category_id}>
                           <List.Item.Meta
                             title={<a href="#">{item.category_name}</a>}
-                            // dataSource={item.list_categories_lv2}
+                          // dataSource={item.list_categories_lv2}
                           />
 
                           <button
