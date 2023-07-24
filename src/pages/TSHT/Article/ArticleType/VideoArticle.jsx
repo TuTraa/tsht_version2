@@ -250,13 +250,13 @@ const VideoArticle = ({ article_type }) => {
                         }}
                         invalid={
                           validation.touched.article_title &&
-                          validation.errors.article_title
+                            validation.errors.article_title
                             ? true
                             : false
                         }
                       />
                       {validation.touched.article_title &&
-                      validation.errors.article_title ? (
+                        validation.errors.article_title ? (
                         <FormFeedback type="invalid">
                           {validation.errors.article_title}
                         </FormFeedback>
@@ -279,13 +279,13 @@ const VideoArticle = ({ article_type }) => {
                         onBlur={validation.handleBlur}
                         invalid={
                           validation.touched.article_sapo &&
-                          validation.errors.article_sapo
+                            validation.errors.article_sapo
                             ? true
                             : false
                         }
                       />
                       {validation.touched.article_sapo &&
-                      validation.errors.article_sapo ? (
+                        validation.errors.article_sapo ? (
                         <FormFeedback type="invalid">
                           {validation.errors.article_sapo}
                         </FormFeedback>
@@ -506,11 +506,11 @@ const VideoArticle = ({ article_type }) => {
                             validation.handleChange(e);
                           }}
 
-                          // onChange={(values) => {
-                          //   const temp = { ...ads };
-                          //   temp.status = values.target.checked ? 1 : 0;
-                          //   setAds(temp);
-                          // }}
+                        // onChange={(values) => {
+                        //   const temp = { ...ads };
+                        //   temp.status = values.target.checked ? 1 : 0;
+                        //   setAds(temp);
+                        // }}
                         />
                       </div>
                     </div>

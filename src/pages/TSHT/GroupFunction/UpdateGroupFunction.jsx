@@ -44,7 +44,6 @@ const UpdateGroupFunction = () => {
     },
     validationSchema: Yup.object({
       group_name: Yup.string().required("Tên nhóm quyền là bắt buộc"),
-      description: Yup.string().required("Mô tả là bắt buộc"),
       group_short_name: Yup.string().required("Tên ký hiệu là bắt buộc"),
     }),
     onSubmit: (values) => {
@@ -143,13 +142,13 @@ const UpdateGroupFunction = () => {
                         onChange={validation.handleChange}
                         invalid={
                           validation.errors.group_name &&
-                          validation.touched.group_name
+                            validation.touched.group_name
                             ? true
                             : false
                         }
                       />
                       {validation.errors.group_name &&
-                      validation.touched.group_name ? (
+                        validation.touched.group_name ? (
                         <FormFeedback type="invalid">
                           {validation.errors.group_name}
                         </FormFeedback>
@@ -168,13 +167,13 @@ const UpdateGroupFunction = () => {
                         onChange={validation.handleChange}
                         invalid={
                           validation.errors.group_short_name &&
-                          validation.touched.group_short_name
+                            validation.touched.group_short_name
                             ? true
                             : false
                         }
                       />
                       {validation.errors.group_short_name &&
-                      validation.touched.group_short_name ? (
+                        validation.touched.group_short_name ? (
                         <FormFeedback type="invalid">
                           {validation.errors.group_short_name}
                         </FormFeedback>

@@ -98,7 +98,7 @@ const Header = () => {
                     <div className="mb-3">
                       <Col lg={4}>
                         <Label htmlFor="article_avatar" className="form-label">
-                          Ảnh header
+                          Ảnh header <RequiredIcon />
                         </Label>
 
                         <SelectMedia

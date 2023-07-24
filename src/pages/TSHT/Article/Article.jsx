@@ -329,8 +329,8 @@ const Article = () => {
               {record.created_date === null
                 ? ""
                 : `| ${moment(new Date(record.created_date)).format(
-                    "DD/MM/YYYY HH:mm:ss"
-                  )}`}
+                  "DD/MM/YYYY HH:mm:ss"
+                )}`}
             </SpanArticle>
           </div>
         ),
@@ -339,7 +339,7 @@ const Article = () => {
         title: "Chuyên mục",
         width: "18%",
         render: (record) => (
-          <div className="d-flex flex-column">
+          <div className="d-flex flex-column" style={{ position: 'absolute', top: '15px' }}>
             <p style={pArticle}>{record.category_name}</p>
             <SpanArticle
               style={{
@@ -360,7 +360,7 @@ const Article = () => {
         title: "Tác giả",
         width: "16%",
         render: (record) => (
-          <div className="d-flex flex-column">
+          <div className="d-flex flex-column" style={{ position: 'absolute', top: '15px' }}>
             <p style={pArticle}>{record.author_name}</p>
             <SpanArticle style={{ minHeight: 18, marginBottom: 0 }}>
               {record.other_author?.trim().length >= 1 ? "Nhóm tác giả" : ""}
@@ -372,7 +372,7 @@ const Article = () => {
         title: "Trạng thái",
         width: "15%",
         render: (record) => (
-          <div className="d-flex flex-column" style={{ marginBottom: 0 }}>
+          <div className="d-flex flex-column" style={{ position: 'absolute', top: '15px' }}>
             <StatusBtn
               style={
                 (record.article_status_id == 1 && btnNew) ||
@@ -388,8 +388,8 @@ const Article = () => {
               {record.modified_date === null
                 ? ""
                 : moment(new Date(record.modified_date)).format(
-                    "DD/MM/YYYY HH:mm:ss"
-                  )}
+                  "DD/MM/YYYY HH:mm:ss"
+                )}
             </SpanArticle>
           </div>
         ),

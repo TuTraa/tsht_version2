@@ -241,7 +241,16 @@ const AddLiveChannel = () => {
                         </Label>
                         <SelectMedia
                           type={"dropzone"}
-                          onUploadMedia={(e) => setAvatar(e)}
+                          onUploadMedia={(e, id, type) => {
+                            if (type === 'audio' || type === 'video') {
+                              toast.error(
+                                "Ảnh đại diện phải là ảnh"
+                              );
+                            } else {
+                              setAvatar(e)
+                            }
+                          }}
+                          typeOnly={'image'}
                         ></SelectMedia>
                       </Col>
                     </div>

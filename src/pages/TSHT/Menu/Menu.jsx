@@ -343,7 +343,7 @@ const Menu = () => {
                     Sắp xếp menu
                   </Label>
                 </CardHeader>
-                <CardBody>
+                <CardBody style={{ position: 'relative', paddingBottom: '30px' }}>
                   <div className="mb-3">
                     {loadingRight ? (
                       <Loading />
@@ -419,6 +419,11 @@ const Menu = () => {
                     )}
                   </div>
                   <button
+                    style={{
+                      position: 'absolute',
+                      right: '27px',
+                      bottom: '20px',
+                    }}
                     type="button"
                     className="btn btn-success add-btn"
                     id="create-btn"

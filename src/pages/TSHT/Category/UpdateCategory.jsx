@@ -34,10 +34,10 @@ const UpdateCategory = () => {
   const [listCategory, setListCategory] = useState([]);
   const [imageSeo, setImageSeo] = useState("");
   const [valueCategory, setValueCategory] = useState(
-  //     {
-  //   value: "",
-  //   title: "Chọn chuyên mục cha",
-  // }
+    //     {
+    //   value: "",
+    //   title: "Chọn chuyên mục cha",
+    // }
   );
   const { id } = useParams();
   const getCategory = async () => {
@@ -46,17 +46,13 @@ const UpdateCategory = () => {
     });
   };
   useEffect(() => {
-    getCategory().then((r) => {});
+    getCategory().then((r) => { });
   }, []);
 
   useEffect(() => {
     getAPITreeListCategory(0, -1).then((res) => {
       var options = [];
       if (res.data && res.data.list && res.status > 0) {
-        // options.push({
-        //   value: "",
-        //   title: "Chọn chuyên mục cha",
-        // });
         res.data.list.forEach((e) => {
           options.push({
             value: e.category_id,
@@ -67,8 +63,32 @@ const UpdateCategory = () => {
             })),
           });
         });
+        setListCategory(options);
+
+        for (let i = 0; i < res.data.list.length; i++) {
+          if (res.data.list && res.data.list[i].list_categories_lv2 && res.data.list[i].list_categories_lv2.length > 0) {
+            for (var j = 0; j < res.data.list[i].list_categories_lv2.length; j++) {
+              if (res.data.list[i].list_categories_lv2[j].category_id == id) {
+                setValueCategory(res.data.list[i].category_name)
+                return;
+              }
+              else if (res.data.list[i].list_categories_lv2[j].list_categories_lv3.length > 0) {
+                for (var k = 0; k < res.data.list[i].list_categories_lv2[j].list_categories_lv3.length; k++) {
+                  if (res.data.list[i].list_categories_lv2[j].list_categories_lv3[k].category_id == id) {
+                    setValueCategory(res.data.list[i].list_categories_lv2[j].category_name)
+                    return;
+                  }
+                }
+              }
+            }
+          }
+        }
+        // options.push({
+        //   value: "",
+        //   title: "Chọn chuyên mục cha",
+        // });
+
       }
-      setListCategory(options);
     });
   }, []);
   document.title = "Sửa chuyên mục | Toà Soạn Hội Tụ";
@@ -174,7 +194,7 @@ const UpdateCategory = () => {
                             }
                           />
                           {validation.touched.category_name &&
-                          validation.errors.category_name ? (
+                            validation.errors.category_name ? (
                             <FormFeedback type="invalid">
                               {validation.errors.category_name}
                             </FormFeedback>
@@ -200,7 +220,7 @@ const UpdateCategory = () => {
                             allowClear
                             treeData={listCategory}
                             treeDefaultExpandAll
-                            placeholder="Chuyên mục"
+                            placeholder="Chuyên mục cha"
                             value={valueCategory}
                             onChange={onChangeCategory}
                           />

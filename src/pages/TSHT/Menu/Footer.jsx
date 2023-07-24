@@ -85,11 +85,11 @@ const Footer = () => {
       else {
         getAPIPostFooter(newFooter).then((r) => {
           if (r.status >= 0) {
-            ToastCustom("Thêm Footer thành công", "success");
+            ToastCustom("Cập nhật Footer thành công", "success");
             // validation.resetForm();
             // navigate("/footer");
           } else if (r.status < 0) {
-            ToastCustom(r.message ? r.message : "Thêm Footer thất bại", "fail");
+            ToastCustom(r.message ? r.message : "Cập nhật Footer thất bại", "fail");
           }
         });
       }

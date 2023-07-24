@@ -90,7 +90,7 @@ const FileMedia = (props) => {
   const { refresh } = useSelector((state) => ({
     refresh: state.FileManager.refresh,
   }));
-  const { type, setOpen, onUploadMedia, setMediaSrc, setTypeMediaSrc } = props;
+  const { type, setOpen, onUploadMedia, setMediaSrc, setTypeMediaSrc, typeOnly } = props;
   const handleUpload = (e) => {
     setViewPercentUploadFile(true);
     const selectedFiles = e.target.files[0];
@@ -344,19 +344,44 @@ const FileMedia = (props) => {
         switch (sidebarData.file_type) {
           case "image":
           case "audio":
-            onUploadMedia(
-              `${sidebarData.file_url}`,
-              sidebarData.file_info_id,
-              sidebarData.file_type,
-              sidebarData.file_url
-            );
+            if (typeOnly === 'none') {
+              onUploadMedia(
+                `${sidebarData.file_url}`,
+                sidebarData.file_info_id,
+                sidebarData.file_type,
+                sidebarData.file_url
+              );
+            } else if (typeOnly === sidebarData.file_type) {
+              onUploadMedia(
+                `${sidebarData.file_url}`,
+                sidebarData.file_info_id,
+                sidebarData.file_type,
+                sidebarData.file_url
+              );
+            } else if (typeOnly !== sidebarData.file_type) {
+              onUploadMedia(
+                ``,
+                '',
+                sidebarData.file_type,
+                ''
+              );
+            }
             break;
           case "video":
-            onUploadMedia(
-              `${sidebarData.file_url}`,
-              sidebarData.file_info_id,
-              sidebarData.file_type
-            );
+            if (typeOnly === 'none') {
+              onUploadMedia(
+                `${sidebarData.file_url}`,
+                sidebarData.file_info_id,
+                sidebarData.file_type
+              );
+            } else if (typeOnly === sidebarData.file_type) {
+              onUploadMedia(
+                `${sidebarData.file_url}`,
+                sidebarData.file_info_id,
+                sidebarData.file_type
+              );
+            }
+
             break;
           default:
             onUploadMedia(`${sidebarData.file_url}`);
@@ -364,11 +389,16 @@ const FileMedia = (props) => {
         }
       }
       if (setMediaSrc && setTypeMediaSrc) {
-        setMediaSrc(`${sidebarData.file_url}`);
-        setTypeMediaSrc(sidebarData.file_type);
-      } else {
-        toast.error("Video này chưa được transcode");
+        if (typeOnly === 'none') {
+          setMediaSrc(`${sidebarData.file_url}`);
+          setTypeMediaSrc(sidebarData.file_type);//đây là hiện image
+        } else if (typeOnly === sidebarData.file_type) {
+          setMediaSrc(`${sidebarData.file_url}`);
+          setTypeMediaSrc(sidebarData.file_type);//đây là hiện image
+        }
       }
+    } else {
+      toast.error("Video này chưa được transcode");
     }
   };
   const columns = [
@@ -422,7 +452,7 @@ const FileMedia = (props) => {
       key: "file_name",
       ...getColumnSearchProps("file_name", "text"),
       render: (record) => (
-        <div
+        <div style={{ width: '270px' }}
           onClick={() => {
             setShowPreview(true);
           }}

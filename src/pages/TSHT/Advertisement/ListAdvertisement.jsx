@@ -213,7 +213,7 @@ const ListAdvertisement = () => {
         title: "Tên",
         width: "25%",
         render: (value) => (
-          <div className="d-flex flex-column">
+          <div className="d-flex flex-column" style={{ position: 'absolute', top: '17px' }}>
             <p style={pAdvertisement}>{value.ad_name}</p>
             <SpanAdvertisement>
               {` Loại QC : ${value.ad_type}`}
@@ -226,7 +226,7 @@ const ListAdvertisement = () => {
         dataIndex: "display_position_name",
         width: "20%",
         render: (value) => (
-          <Link to="#" className="fw-medium link-primary">
+          <Link to="#" className="fw-medium link-primary" style={{ position: 'absolute', top: '17px' }}>
             {value ? value : ""}
           </Link>
         ),
@@ -236,7 +236,7 @@ const ListAdvertisement = () => {
         dataIndex: "customer_info",
         width: "15%",
         render: (value) => (
-          <Link to="#" className="fw-medium link-primary">
+          <Link to="#" className="fw-medium link-primary" style={{ position: 'absolute', top: '17px' }}>
             {value}
           </Link>
         ),
@@ -247,7 +247,7 @@ const ListAdvertisement = () => {
         // className: "text-center",
         width: "15%",
         render: (value) => (
-          <div className="d-flex flex-column">
+          <div className="d-flex flex-column" >
             <p>
               Từ :{" "}
               {moment(new Date(value.datetime_from)).format(

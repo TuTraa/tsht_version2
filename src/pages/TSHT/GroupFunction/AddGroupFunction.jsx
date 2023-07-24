@@ -43,7 +43,7 @@ const AddGroupFunction = () => {
       group_name: Yup.string()
         .required("Tên nhóm quyền là bắt buộc")
         .max(45, "Tên nhóm quyền không được quá 45 ký tự"),
-      description: Yup.string().required("Mô tả là bắt buộc"),
+      // description: Yup.string().trim().required("Mô tả là bắt buộc"),
       group_short_name: Yup.string()
         .required("Tên ký hiệu là bắt buộc")
         .max(200, "Tên ký hiệu không được quá 200 ký tự"),
@@ -125,13 +125,13 @@ const AddGroupFunction = () => {
                         onChange={validation.handleChange}
                         invalid={
                           validation.errors.group_name &&
-                          validation.touched.group_name
+                            validation.touched.group_name
                             ? true
                             : false
                         }
                       />
                       {validation.errors.group_name &&
-                      validation.touched.group_name ? (
+                        validation.touched.group_name ? (
                         <FormFeedback type="invalid">
                           {validation.errors.group_name}
                         </FormFeedback>
@@ -150,13 +150,13 @@ const AddGroupFunction = () => {
                         onChange={validation.handleChange}
                         invalid={
                           validation.errors.group_short_name &&
-                          validation.touched.group_short_name
+                            validation.touched.group_short_name
                             ? true
                             : false
                         }
                       />
                       {validation.errors.group_short_name &&
-                      validation.touched.group_short_name ? (
+                        validation.touched.group_short_name ? (
                         <FormFeedback type="invalid">
                           {validation.errors.group_short_name}
                         </FormFeedback>

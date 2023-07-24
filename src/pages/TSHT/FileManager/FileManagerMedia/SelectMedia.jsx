@@ -18,6 +18,7 @@ const SelectMedia = ({
   defaultType = "image",
   setAvatar,
   close,
+  typeOnly = "none"
 }) => {
   const [open, setOpen] = useState(false);
   const [mediaSrc, setMediaSrc] = useState();
@@ -141,6 +142,7 @@ const SelectMedia = ({
           setTypeMediaSrc={setTypeMediaSrc}
           setMediaSrc={setMediaSrc}
           onUploadMedia={onUploadMedia}
+          typeOnly={typeOnly}
         ></FileMedia>
       </Modal>
     </>
